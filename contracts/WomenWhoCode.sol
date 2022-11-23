@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.17;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 
 contract Token is ERC20 {
     constructor() ERC20("WomenWhoCode Token", "WWC") {
-        _mint(msg.sender, 1_000_000);
+        _mint(msg.sender, 1_000_000 * 10 ** decimals());
     }
 }
 
@@ -22,7 +22,7 @@ contract WomenWhoCode is ERC721 {
     }
 
     function earnTokens() public {
-        IERC20(tokenAddress).transfer(msg.sender,100);
+        IERC20(tokenAddress).transfer(msg.sender,100e18);
     }
 
     function mint() public {
@@ -33,7 +33,7 @@ contract WomenWhoCode is ERC721 {
 
     function makeAlien(uint _tokenId) public {
         uint balance = IERC20(tokenAddress).balanceOf(msg.sender);
-        require(balance >= 100, "You don't have enough tokens");
+        require(balance >= 100e18, "You don't have enough tokens");
         require(ownerOf(_tokenId) ==  msg.sender, "You do not own this NFT");
         isAlien[_tokenId] = true;
     }
